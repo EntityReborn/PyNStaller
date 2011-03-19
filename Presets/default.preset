@@ -1,0 +1,5 @@
+[Core]
+name=Default Preset
+id=default
+includes=tinyumbrella,chromebrowser
+excludes=

@@ -1,0 +1,11 @@
+[Core]
+name = Java Runtime Environment
+categories = Support, Utilities
+summary = Runtimes for the Java language.
+id = java
+
+[Commands]
+1=cmd1
+2=cmd2
+
+[SubCommands]

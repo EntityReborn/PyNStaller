@@ -1,0 +1,10 @@
+[Core]
+name = Activate Windows 7
+categories = Activation
+summary = Activate Windows 7 easily
+id = actwin7
+checktype=2
+
+[Commands]
+1=cmd1
+2=cmd2

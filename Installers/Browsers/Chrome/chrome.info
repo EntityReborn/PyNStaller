@@ -1,0 +1,9 @@
+[Core]
+name = Chrome Browser
+categories = Browsers
+summary = Slick and speedy internet browser by Google
+id = chromebrowser
+
+[Commands]
+1=cmd1
+2=cmd2

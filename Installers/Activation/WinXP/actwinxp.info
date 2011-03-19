@@ -1,0 +1,10 @@
+[Core]
+name = Activate Windows XP
+categories = Activation
+summary = Activate Windows XP easily
+id = actwinxp
+checktype = 2
+
+[Commands]
+1=cmd1
+2=cmd2

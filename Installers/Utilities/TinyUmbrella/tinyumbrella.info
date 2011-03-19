@@ -1,0 +1,11 @@
+[Core]
+name = TinyUmbrella 
+categories = Utilities/iDevices
+summary = Save your SHSHs and exit or enter recovery!
+id = tinyumbrella
+depends = java
+tooltip = Created by someone cool.
+
+[Commands]
+1=cmd1
+2=cmd2
