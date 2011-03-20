@@ -2,6 +2,12 @@ Py-N-Staller
 ============
 
 Python and PyQt4 based post installer, for all supported platforms.
+Entries are INI based, and can be anywhere inside the Installers directory
+(with the extension .info), and presets can be anywhere inside the Presets 
+directory (with the extension .preset).
+
+The core has been written with GUI-portability in mind, and doesn't use GUI
+libraries at all.
 
 Please note:
 This software is 100% PRE-ALPHA! Bugs are all around, and features aren't fully 

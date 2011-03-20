@@ -48,15 +48,16 @@ if __name__ == "__main__":
             i = item.internalPointer()
             pass
             
-        def itemChecked(self, thisitem, newstate, forcemissing=False, 
-                        forceorphaning=False):
+        def itemChecked(self, thisitem, newstate):
             docheck = True
             missingdeps = []
             dependedby = []
             disableddeps = []
             
+            depends = self.core.installerItems().deps(thisitem.id)
+            
             if newstate == True:
-                for dep in thisitem.depends:
+                for dep in depends:
                     if not dep in self.core.installerItems():
                         missingdeps.append(dep)
                         docheck = False
@@ -67,28 +68,24 @@ if __name__ == "__main__":
                         docheck = False
                     
             if docheck:
-                if thisitem.depends:
+                if depends:
                     if newstate == True:
-                        for dep in thisitem.depends:
+                        for dep in depends:
                             if not self.core.installerItems().isChecked(dep):
                                 disableddeps.append(dep)
                                 
                         if disableddeps:
-                            if not forcemissing:
-                                q = QtGui.QMessageBox.question(self, "Required dependencies!", 
-                                   "Do you wish to check the following dependencies?\n\n%s" %
-                                   ", ".join(disableddeps), "No", "Yes", "Ignore")
-                                
-                                if q == 1: # Yes
-                                    for dep in disableddeps:
-                                        self.core.installerItems().setChecked(dep, True)
-                                elif q == 0:
-                                    docheck = False
-                            else:
-                                docheck = True
+                            q = QtGui.QMessageBox.question(self, "Required dependencies!", 
+                               "Do you wish to check the following dependencies?\n\n%s" %
+                               ", ".join(disableddeps), "No", "Yes", "Ignore")
+                            
+                            if q == 1: # Yes
+                                for dep in disableddeps:
+                                    self.core.installerItems().setChecked(dep, True)
+                            elif q == 0: # No
+                                docheck = False
                 if docheck: 
                     self.core.installerItems().setChecked(thisitem.id, newstate)
-                
                 
             else:
                 if newstate == True:
@@ -96,15 +93,14 @@ if __name__ == "__main__":
                        "Can't install this item due to the\nfollowing missing dependencies:\n\n%s" %
                        ", ".join(missingdeps))
                 else:
-                    if not forceorphaning:
-                        q = QtGui.QMessageBox.question(self, "Orphaned dependencies!", 
-                           "Unchecking will uncheck the following dependents:\n\n%s\n\nContinue?" %
-                           ", ".join(dependedby), "No", "Yes", "Ignore")
-                        
-                        if q == 1 or q == 2: # Yes or Ignore
-                            if q == 1: # Yes
-                                for dep in dependedby:
-                                    self.core.installerItems().setChecked(dep, False)
+                    q = QtGui.QMessageBox.question(self, "Orphaned dependencies!", 
+                       "Unchecking will uncheck the following dependents:\n\n%s\n\nContinue?" %
+                       ", ".join(dependedby), "No", "Yes", "Ignore")
+                    
+                    if q == 1 or q == 2: # Yes or Ignore
+                        if q == 1: # Yes
+                            for dep in dependedby:
+                                self.core.installerItems().setChecked(dep, False)
                     
                     self.core.installerItems().setChecked(thisitem.id, False)
                                 

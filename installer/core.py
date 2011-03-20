@@ -19,7 +19,19 @@ class InstallerDict(dict):
         return self.get(id)[0].isChecked()
     
     def deps(self, id):
-        return self.get(id)[0].depends
+        def getMoreDeps(id, prevdeps=None):
+            deps = self.get(id)[0].depends
+            
+            if prevdeps is None:
+                prevdeps = set()
+                
+            for dep in deps:
+                prevdeps.add(dep)
+                getMoreDeps(dep, prevdeps)
+            
+            return prevdeps
+        
+        return getMoreDeps(id)
 
 class PresetDict(dict):
     pass
@@ -272,7 +284,8 @@ if __name__ == "__main__":
     c.getPresets("..\Presets")
     
     for key, itemgroup in c.installerItems().iteritems():
-        print key, "depends on", itemgroup[0].depends, "and is depended on by", itemgroup[0].dependedby
+        #print key, "depends on", itemgroup[0].depends, "and is depended on by", itemgroup[0].dependedby
+        print key, "depends on", c.installerItems().deps(key)
         
     for key, preset in c.presetItems().iteritems():
         print key, "has id", preset.id, "and includes", preset.includes, "but excludes", preset.excludes
